@@ -9,11 +9,7 @@ import axios from "axios";
 import { createIssueSchema } from "@/app/validationSchema";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-// interface IssueForm {
-//   name: string;
-//   description: string;
-// }
+import ErrorMessage from "@/app/components/ErrorMessage";
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 
@@ -47,21 +43,13 @@ const NewIssuePage = () => {
           }
         })}
       >
-        {errors.name && (
-          <Text className="max-h-3 text-red-500" as="p">
-            {errors.name.message}
-          </Text>
-        )}
+        <ErrorMessage>{errors.name?.message}</ErrorMessage>
         <TextField.Root
           placeholder="Issue Name"
           {...register("name")}
         ></TextField.Root>
 
-        {errors.description && (
-          <Text className="max-h-3 text-red-500" as="p">
-            {errors.description.message}
-          </Text>
-        )}
+        <ErrorMessage>{errors.description?.message}</ErrorMessage>
         <Controller
           name="description"
           control={control}
