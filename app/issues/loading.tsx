@@ -3,7 +3,7 @@ import React from "react";
 import IssueStatusBadge from "../components/IssueStatusBadge";
 import IssueActions from "./IssueActions";
 
-const LoadingPage = () => {
+const LoadingIssuesPage = () => {
   const issues = [1, 2, 3, 4, 5];
   return (
     <div>
@@ -46,4 +46,4 @@ const LoadingPage = () => {
   );
 };
 
-export default LoadingPage;
+export default LoadingIssuesPage;
