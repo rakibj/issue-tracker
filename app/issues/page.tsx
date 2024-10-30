@@ -1,9 +1,15 @@
 import React from "react";
-import { Table } from "@radix-ui/themes";
+import { Flex, Table } from "@radix-ui/themes";
 import prisma from "@/prisma/client";
 import IssueStatusBadge from "../components/IssueStatusBadge";
 import delay from "delay";
 import IssueActions from "./IssueActions";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  Link as NavLink,
+} from "@radix-ui/react-navigation-menu";
 import Link from "next/link";
 
 const IssuesPage = async () => {
@@ -30,7 +36,12 @@ const IssuesPage = async () => {
             {issues.map((issue) => (
               <Table.Row key={issue.id}>
                 <Table.RowHeaderCell>
-                  <Link href={`/issues/${issue.id}`}>{issue.name}</Link>
+                  <Link
+                    className="text-blue-700 text-decoration-line: underline"
+                    href={`/issues/${issue.id}`}
+                  >
+                    {issue.name}
+                  </Link>
                   <div className="md:hidden">
                     <IssueStatusBadge status={issue.status} />
                   </div>
