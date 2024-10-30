@@ -1,8 +1,7 @@
 import React from "react";
 import delay from "delay";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 import { Box } from "@radix-ui/themes";
+import { Skeleton } from "@/app/components";
 
 const LoadingNewIssuePage = async () => {
   await delay(2000);

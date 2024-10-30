@@ -1,16 +1,9 @@
-import React from "react";
-import { Flex, Table } from "@radix-ui/themes";
 import prisma from "@/prisma/client";
-import IssueStatusBadge from "../components/IssueStatusBadge";
+import { Table } from "@radix-ui/themes";
 import delay from "delay";
-import IssueActions from "./IssueActions";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  Link as NavLink,
-} from "@radix-ui/react-navigation-menu";
 import Link from "next/link";
+import IssueStatusBadge from "../components/IssueStatusBadge";
+import IssueActions from "./IssueActions";
 
 const IssuesPage = async () => {
   const issues = await prisma.issue.findMany();

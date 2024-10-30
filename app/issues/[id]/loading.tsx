@@ -1,7 +1,7 @@
 import { Box } from "@radix-ui/themes";
 import React from "react";
-import Skeleton from "react-loading-skeleton";
 import delay from "delay";
+import { Skeleton } from "@/app/components";
 
 const LoadingIssueDetailsPage = async () => {
   await delay(2000);
