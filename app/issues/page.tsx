@@ -37,7 +37,7 @@ const IssuesPage = async () => {
               <Table.Row key={issue.id}>
                 <Table.RowHeaderCell>
                   <Link
-                    className="text-blue-700 text-decoration-line: underline"
+                    className="text-sky-800 text-decoration-line: underline"
                     href={`/issues/${issue.id}`}
                   >
                     {issue.name}
