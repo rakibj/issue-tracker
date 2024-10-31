@@ -29,7 +29,7 @@ const IssueDetailsPage = async ({ params }: Props) => {
       </Box>
       <Box>
         <Button>
-          <Link href={`/issues/${issue.id}/edit</Button>`}>
+          <Link href={`/issues/${issue.id}/edit}`}>
             <Flex align="center" gap="2">
               <Pencil1Icon />
               <Text>Edit Issue</Text>
