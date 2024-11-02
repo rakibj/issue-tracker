@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import EditIssueButton from "./EditIssueButton";
 import IssueDetails from "./IssueDetails";
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 const IssueDetailsPage = async ({ params }: Props) => {
   const { id } = await params;
