@@ -14,7 +14,7 @@ export async function PATCH(
     });
 
   const id = parseInt(params.id);
-  const issue = prisma.issue.findUnique({
+  const issue = await prisma.issue.findUnique({
     where: { id: id },
   });
   if (!issue) return new NextResponse("Issue not  found", { status: 400 });
