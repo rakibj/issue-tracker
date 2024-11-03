@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import IssueForm from "../_components/IssueForm";
 
 const NewIssuePage = () => {
