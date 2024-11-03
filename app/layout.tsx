@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import NavBar from "./NavBar";
 import { Theme, ThemePanel } from "@radix-ui/themes";
+import SessionProviderWrapper from "./SessionProviderWrapper";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -21,10 +22,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.variable}>
-        <Theme grayColor="sand">
-          <NavBar />
-          <main className="p-5">{children}</main>
-        </Theme>
+        <SessionProviderWrapper>
+          <Theme grayColor="sand">
+            <NavBar />
+            <main className="p-5">{children}</main>
+          </Theme>
+        </SessionProviderWrapper>
       </body>
     </html>
   );
