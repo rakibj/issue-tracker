@@ -16,13 +16,6 @@ import {
 } from "@radix-ui/themes";
 
 const NavBar = () => {
-  const pathname = usePathname();
-  const { data: session } = useSession();
-
-  const links = [
-    { name: "Dashboard", href: "/" },
-    { name: "Issues", href: "/issues" },
-  ];
   classNames;
 
   return (
@@ -32,51 +25,74 @@ const NavBar = () => {
           <Link href={"/"}>
             <FaBug />
           </Link>
-          <ul className="flex space-x-6">
-            {links.map((link) => (
-              <li key={link.href}>
-                <Link
-                  className={classNames({
-                    "text-zinc-900": pathname == link.href,
-                    "text-zinc-500 hover:text-zinc-800 transition-colors": true,
-                  })}
-                  href={link.href}
-                >
-                  {link.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <NavLinks />
         </Flex>
-        <Box className="ml-auto flex space-x-4">
-          {session ? (
-            <>
-              <DropdownMenu.Root>
-                <DropdownMenu.Trigger>
-                  <Avatar
-                    src={session.user?.image!}
-                    fallback={"?"}
-                    size="2"
-                    radius="full"
-                    className="cursor-pointer"
-                  />
-                </DropdownMenu.Trigger>
-                <DropdownMenu.Content>
-                  <DropdownMenu.Label>
-                    <Text size="2">{session.user?.email!}</Text>
-                  </DropdownMenu.Label>
-                  <DropdownMenu.Item>
-                    <Button onClick={() => signOut()}>Sign Out</Button>
-                  </DropdownMenu.Item>
-                </DropdownMenu.Content>
-              </DropdownMenu.Root>
-            </>
-          ) : (
-            <Button onClick={() => signIn("google")}>Sign In</Button>
-          )}
-        </Box>
+        <AuthStatus />
       </Flex>
     </nav>
+  );
+};
+
+const AuthStatus = () => {
+  const { data: session } = useSession();
+
+  if (!session)
+    return <Button onClick={() => signIn("google")}>Sign In</Button>;
+
+  return (
+    <>
+      <Box className="ml-auto flex space-x-4">
+        <>
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger>
+              <Avatar
+                src={session.user?.image!}
+                fallback={"?"}
+                size="2"
+                radius="full"
+                className="cursor-pointer"
+              />
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Content>
+              <DropdownMenu.Label>
+                <Text size="2">{session.user?.email!}</Text>
+              </DropdownMenu.Label>
+              <DropdownMenu.Item>
+                <Button onClick={() => signOut()}>Sign Out</Button>
+              </DropdownMenu.Item>
+            </DropdownMenu.Content>
+          </DropdownMenu.Root>
+        </>
+      </Box>
+    </>
+  );
+};
+
+const NavLinks = () => {
+  const pathname = usePathname();
+
+  const links = [
+    { name: "Dashboard", href: "/" },
+    { name: "Issues", href: "/issues" },
+  ];
+  return (
+    <>
+      <ul className="flex space-x-6">
+        {links.map((link) => (
+          <li key={link.href}>
+            <Link
+              className={classNames({
+                "nav-link": true,
+                "!text-zinc-900": pathname == link.href,
+              })}
+              href={link.href}
+            >
+              {link.name}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 };
 
