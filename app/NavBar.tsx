@@ -5,7 +5,15 @@ import React from "react";
 import { FaBug } from "react-icons/fa";
 import classNames from "classnames";
 import { useSession, signIn, signOut } from "next-auth/react";
-import { Box, Container, Flex } from "@radix-ui/themes";
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  DropdownMenu,
+  Flex,
+  Text,
+} from "@radix-ui/themes";
 
 const NavBar = () => {
   const pathname = usePathname();
@@ -42,19 +50,29 @@ const NavBar = () => {
         </Flex>
         <Box className="ml-auto flex space-x-4">
           {session ? (
-            <button
-              onClick={() => signOut()}
-              className="text-zinc-500 hover:text-zinc-800 transition-colors"
-            >
-              Sign Out
-            </button>
+            <>
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger>
+                  <Avatar
+                    src={session.user?.image!}
+                    fallback={"?"}
+                    size="2"
+                    radius="full"
+                    className="cursor-pointer"
+                  />
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content>
+                  <DropdownMenu.Label>
+                    <Text size="2">{session.user?.email!}</Text>
+                  </DropdownMenu.Label>
+                  <DropdownMenu.Item>
+                    <Button onClick={() => signOut()}>Sign Out</Button>
+                  </DropdownMenu.Item>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
+            </>
           ) : (
-            <button
-              onClick={() => signIn("google")}
-              className="text-zinc-500 hover:text-zinc-800 transition-colors"
-            >
-              Sign In
-            </button>
+            <Button onClick={() => signIn("google")}>Sign In</Button>
           )}
         </Box>
       </Flex>
