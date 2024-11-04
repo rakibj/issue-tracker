@@ -5,9 +5,10 @@ import IssueStatusBadge from "../components/IssueStatusBadge";
 import IssueActions from "./IssueActions";
 import { Issue, Status } from "@prisma/client";
 import { ArrowUpIcon } from "@radix-ui/react-icons";
+import Pagination from "../components/Pagination";
 
 interface Props {
-  searchParams: Promise<{ status: Status; orderBy: keyof Issue }>;
+  searchParams: Promise<{ status: Status; orderBy: keyof Issue; page: string }>;
 }
 
 const IssuesPage = async ({ searchParams }: Props) => {
@@ -26,6 +27,12 @@ const IssuesPage = async ({ searchParams }: Props) => {
   ];
 
   const params = await searchParams;
+  const pageSize = 10;
+  const issueCount = await prisma.issue.count({
+    where: { status: params.status },
+  });
+  const pageCount = Math.ceil(issueCount / pageSize);
+  const currentPage = parseInt(params.page) || 1;
 
   const orderBy = headerColumns.find(
     (headerColumn) => headerColumn.value == params.orderBy
@@ -36,7 +43,9 @@ const IssuesPage = async ({ searchParams }: Props) => {
     where: {
       status: params.status,
     },
-    orderBy,
+    orderBy: orderBy,
+    skip: (currentPage - 1) * pageSize,
+    take: pageSize,
   });
 
   return (
@@ -90,6 +99,11 @@ const IssuesPage = async ({ searchParams }: Props) => {
             ))}
           </Table.Body>
         </Table.Root>
+        <Pagination
+          itemCount={issueCount}
+          pageSize={pageSize}
+          currentPage={currentPage}
+        />
       </div>
     </div>
   );
