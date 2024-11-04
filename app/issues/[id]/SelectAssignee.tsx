@@ -1,19 +1,13 @@
 "use client";
 import { Issue, User } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import Skeleton from "react-loading-skeleton";
+import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import Skeleton from "react-loading-skeleton";
 
 const SelectAssignee = ({ issue }: { issue: Issue }) => {
-  const { data, error, isFetching } = useQuery<User[]>({
-    queryKey: ["users"],
-    queryFn: () => axios.get("/api/users").then((res) => res.data),
-    staleTime: 60 * 1000, //60s
-    retry: 3,
-  });
+  const { data, error, isFetching } = useUsers();
   const users = data;
   // const [users, setUsers] = useState<User[]>();
 
@@ -35,19 +29,19 @@ const SelectAssignee = ({ issue }: { issue: Issue }) => {
   if (isFetching) return <Skeleton height="2rem" />;
   if (error) return <></>;
 
+  const assignUser = (userId: string) => {
+    axios
+      .patch("/api/issues/" + issue.id, {
+        assignedToUserId: userId == "Unassigned" ? null : userId,
+      })
+      .catch(() => {
+        toast("Assignee could not be updated");
+      });
+  };
+
   return (
     <>
-      <Select.Root
-        onValueChange={(userId) => {
-          axios
-            .patch("/api/issues/" + issue.id, {
-              assignedToUserId: userId == "Unassigned" ? null : userId,
-            })
-            .catch(() => {
-              toast("Assignee could not be updated");
-            });
-        }}
-      >
+      <Select.Root onValueChange={assignUser}>
         <Select.Trigger placeholder="Assign..." />
         <Select.Content>
           <Select.Group>
@@ -69,3 +63,11 @@ const SelectAssignee = ({ issue }: { issue: Issue }) => {
 };
 
 export default SelectAssignee;
+
+const useUsers = () =>
+  useQuery<User[]>({
+    queryKey: ["users"],
+    queryFn: () => axios.get("/api/users").then((res) => res.data),
+    staleTime: 60 * 1000, //60s
+    retry: 3,
+  });
