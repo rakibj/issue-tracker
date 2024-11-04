@@ -20,7 +20,8 @@ const IssueStatusFilter = () => {
       <Select.Root
         onValueChange={(status) => {
           const params = new URLSearchParams();
-          if (status) params.append("status", status);
+          if (status && Object.values(Status).includes(status as Status))
+            params.append("status", status);
           if (searchParams.get("orderBy"))
             params.append("orderBy", searchParams.get("orderBy")!);
 
