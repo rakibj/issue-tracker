@@ -1,6 +1,6 @@
 "use client";
 import { ErrorMessage, Spinner } from "@/app/components/";
-import { issueSchema } from "@/app/validationSchema";
+import { patchIssueSchema } from "@/app/validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Issue } from "@prisma/client";
 import { Button, Callout, TextField } from "@radix-ui/themes";
@@ -16,7 +16,7 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false,
 });
 
-type IssueFormData = z.infer<typeof issueSchema>;
+type IssueFormData = z.infer<typeof patchIssueSchema>;
 
 const IssueForm = ({ issue }: { issue?: Issue }) => {
   const {
@@ -25,7 +25,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
     watch,
     control,
     formState: { errors },
-  } = useForm<IssueFormData>({ resolver: zodResolver(issueSchema) });
+  } = useForm<IssueFormData>({ resolver: zodResolver(patchIssueSchema) });
   const router = useRouter();
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);

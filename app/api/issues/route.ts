@@ -1,4 +1,4 @@
-import { issueSchema } from "@/app/validationSchema";
+import { patchIssueSchema } from "@/app/validationSchema";
 import prisma from "@/prisma/client";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
   if (!session)
     return NextResponse.json("Please authenticate first", { status: 401 });
   const body = await request.json();
-  const validation = issueSchema.safeParse(body);
+  const validation = patchIssueSchema.safeParse(body);
   if (!validation.success)
     return NextResponse.json(
       { error: validation.error.errors },
