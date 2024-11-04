@@ -1,11 +1,18 @@
-import { Button } from "@radix-ui/themes";
 import Pagination from "./components/Pagination";
-import { DoubleArrowLeftIcon } from "@radix-ui/react-icons";
 
-export default function Home() {
+interface Props {
+  searchParams: Promise<{ page: string }>;
+}
+
+export default async function Home({ searchParams }: Props) {
+  const params = await searchParams;
   return (
     <>
-      <Pagination itemCount={100} pageSize={10} currentPage={3} />
+      <Pagination
+        itemCount={100}
+        pageSize={10}
+        currentPage={parseInt(params.page)}
+      />
     </>
   );
 }
