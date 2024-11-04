@@ -5,6 +5,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Skeleton from "react-loading-skeleton";
+import toast, { Toaster } from "react-hot-toast";
 
 const SelectAssignee = ({ issue }: { issue: Issue }) => {
   const { data, error, isFetching } = useQuery<User[]>({
@@ -38,9 +39,13 @@ const SelectAssignee = ({ issue }: { issue: Issue }) => {
     <>
       <Select.Root
         onValueChange={(userId) => {
-          axios.patch("/api/issues/" + issue.id, {
-            assignedToUserId: userId == "Unassigned" ? null : userId,
-          });
+          axios
+            .patch("/api/issues/" + issue.id, {
+              assignedToUserId: userId == "Unassigned" ? null : userId,
+            })
+            .catch(() => {
+              toast("Assignee could not be updated");
+            });
         }}
       >
         <Select.Trigger placeholder="Assign..." />
@@ -58,6 +63,7 @@ const SelectAssignee = ({ issue }: { issue: Issue }) => {
           </Select.Group>
         </Select.Content>
       </Select.Root>
+      <Toaster />
     </>
   );
 };
