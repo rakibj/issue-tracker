@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import NavBar from "./NavBar";
 import { Theme, ThemePanel } from "@radix-ui/themes";
 import SessionProviderWrapper from "./SessionProviderWrapper";
+import QueryClientProvider from "./components/QueryClientProvider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -22,12 +23,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.variable}>
-        <SessionProviderWrapper>
-          <Theme grayColor="sand">
-            <NavBar />
-            <main className="p-5">{children}</main>
-          </Theme>
-        </SessionProviderWrapper>
+        <QueryClientProvider>
+          <SessionProviderWrapper>
+            <Theme grayColor="sand">
+              <NavBar />
+              <main className="p-5">{children}</main>
+            </Theme>
+          </SessionProviderWrapper>
+        </QueryClientProvider>
       </body>
     </html>
   );
