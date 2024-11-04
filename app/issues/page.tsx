@@ -6,14 +6,15 @@ import IssueActions from "./IssueActions";
 import { Status } from "@prisma/client";
 
 interface Props {
-  searchParams: { status: Status };
+  searchParams: Promise<{ status: Promise<Status> }>;
 }
 
 const IssuesPage = async ({ searchParams }: Props) => {
   const params = await searchParams;
+  const status = await params.status;
   const issues = await prisma.issue.findMany({
     where: {
-      status: params.status,
+      status: status,
     },
   });
   return (
