@@ -4,6 +4,7 @@ import LatestIssues from "./components/LatestIssues";
 import Pagination from "./components/Pagination";
 import prisma from "@/prisma/client";
 import IssueChart from "./components/IsssueChart";
+import { Flex, Grid } from "@radix-ui/themes";
 
 interface Props {
   searchParams: Promise<{ page: string }>;
@@ -21,16 +22,23 @@ export default async function Home({ searchParams }: Props) {
   const closedIssues = await getIssueCount("CLOSED");
   return (
     <>
-      <IssueChart
-        open={openIssues}
-        inProgress={inProgressIssues}
-        closed={closedIssues}
-      />
-      <IssueSummary
-        open={openIssues}
-        inProgress={inProgressIssues}
-        closed={closedIssues}
-      />
+      <Grid columns={{ initial: "1", md: "2" }} justify="center" gap="5">
+        <Flex direction="column" align="start" gap="5">
+          <IssueSummary
+            open={openIssues}
+            inProgress={inProgressIssues}
+            closed={closedIssues}
+          />
+          <IssueChart
+            open={openIssues}
+            inProgress={inProgressIssues}
+            closed={closedIssues}
+          />
+        </Flex>
+        <Flex direction="column">
+          <LatestIssues />
+        </Flex>
+      </Grid>
     </>
   );
 }
