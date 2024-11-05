@@ -1,3 +1,4 @@
+import IssueSummary from "./components/IssueSummary";
 import LatestIssues from "./components/LatestIssues";
 import Pagination from "./components/Pagination";
 
@@ -9,7 +10,7 @@ export default async function Home({ searchParams }: Props) {
   const params = await searchParams;
   return (
     <>
-      <LatestIssues />
+      <IssueSummary />
     </>
   );
 }
