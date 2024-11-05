@@ -4,6 +4,7 @@ import Pagination from "../components/Pagination";
 import IssueTable from "./_components/IssueTable";
 import IssueActions from "./IssueActions";
 import { Flex } from "@radix-ui/themes";
+import { Metadata } from "next";
 
 export interface IssueQuery {
   status: Status;
@@ -38,3 +39,8 @@ export const dynamic = "force-dynamic";
 // export const revalidate = 0;
 export const pageSize = 10;
 export default IssuesPage;
+
+export const metadata: Metadata = {
+  title: "Issues Page",
+  description: "View all of the issues with filters",
+};
