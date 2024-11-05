@@ -4,27 +4,28 @@ import { Card, Flex, Heading, Text } from "@radix-ui/themes";
 import Link from "next/link";
 import React from "react";
 
-const getIssueCount = async (status: Status) => {
-  const issues = await prisma.issue.findMany({ where: { status: status } });
-  return issues.length;
-};
+interface Props {
+  open: number;
+  inProgress: number;
+  closed: number;
+}
 
-const IssueSummary = async () => {
+const IssueSummary = ({ open, inProgress, closed }: Props) => {
   const issueSummaries: { label: string; status: Status; count: number }[] = [
     {
       label: "Open Issues",
       status: "OPEN",
-      count: await getIssueCount("OPEN"),
+      count: open,
     },
     {
       label: "In-progress Issues",
       status: "IN_PROGRESS",
-      count: await getIssueCount("IN_PROGRESS"),
+      count: inProgress,
     },
     {
       label: "Closed Issues",
       status: "CLOSED",
-      count: await getIssueCount("CLOSED"),
+      count: closed,
     },
   ];
 
